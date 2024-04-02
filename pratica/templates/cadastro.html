@@ -52,6 +52,10 @@
                             <input type="text" class="input-form" name="username" id="">
                             <br>
                             <br>
+                            <label for="email">E-mail</label>
+                            <input type="text" class="input-form" name="email" id="emailField">
+                            <br>
+                            <br>
                             <label>Senha</label>
                             <input type="password" class="input-form" name="senha" id="">
                             <br>
@@ -74,4 +78,14 @@
     </div>
 
 {% endblock 'conteudo' %}
+
+
+<script>
+    document.getElementById('emailField').addEventListener('input', function() {
+    var emailInput = this.value;
+    if (!emailInput.includes('@')) {
+    this.value = emailInput + '@';
+    }
+    });
+</script>
 

@@ -5,7 +5,7 @@ from django.contrib.messages import constants
 from django.contrib.auth.models import User  
 from django.contrib import messages 
 from django.contrib import auth
-
+from .tasks import enviar_email_boas_vindas
 
 
 def home(request):
@@ -40,7 +40,8 @@ def cadastro(request):
                 email=email,
                 password=senha
             )
-            # Agendar o envio do e-mail   
+            # Agendar o envio do e-mail de boas-vindas após 10 seg
+            enviar_email_boas_vindas.apply_async(args=[user[0].id], countdown=10)
             messages.add_message(request, constants.SUCCESS, 'Usuário cadastrado!!')
             tarefa_com_parametro.delay(username)
             return redirect('/pratica/logar')
