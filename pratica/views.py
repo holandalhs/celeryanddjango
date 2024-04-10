@@ -59,14 +59,16 @@ def logar(request):
         username = request.POST.get('username')
         senha = request.POST.get('senha')
 
-        user = auth.authenticate(request, username=username, senha=senha)
+        user = auth.authenticate(request, username=username, password=senha)
+
         #print(user)
 
         if user:
             auth.login(request, user)
             messages.add_message(request, constants.SUCCESS, 'Usuário logado!!')
-            tarefa_com_parametro.delay(user)
-            return HttpResponse('<h2> Tarefa de login efetuada! </h2>')
+            tarefa_com_parametro.delay(username)
+            #return HttpResponse('<h2> Tarefa de login efetuada! </h2>')
+            # Redireciona para a tela de cadastro após o login bem-sucedido
             return redirect('/pratica/cadastro')    #*** por enquanto volta pra tela de cadastro
         else:
             messages.add_message(request, constants.ERROR, 'Username ou senha inválidos!!')
