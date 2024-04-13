@@ -8,6 +8,7 @@ from django.contrib import auth
 from .tasks import enviar_email_boas_vindas
 
 
+
 def home(request):
     tarefa_simples.delay()
     return HttpResponse('<h2> Acesso ao ambiente! </h2>')
@@ -31,9 +32,7 @@ def cadastro(request):
 
         if user.exists():
             messages.add_message(request, constants.ERROR, 'O usuário já existe!')
-            return redirect('/pratica/cadastro')
-   
-            
+            return redirect('/pratica/cadastro')               
         try:
             User.objects.create_user( 
                 username=username,
@@ -42,7 +41,7 @@ def cadastro(request):
             )
             # Agendar o envio do e-mail de boas-vindas após 10 seg
             enviar_email_boas_vindas.apply_async(args=[user[0].id], countdown=10)
-            messages.add_message(request, constants.SUCCESS, 'Usuário cadastrado!!')
+            messages.add_message(request, constants.SUCCESS, 'Usuário cadastrado!!Sessão web')
             tarefa_com_parametro.delay(username)
             return redirect('/pratica/logar')
         except Exception as e:

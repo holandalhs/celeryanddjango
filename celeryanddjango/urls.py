@@ -24,6 +24,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pratica/', include('pratica.urls')), 
+    path('email/', include('enviaemail.urls') )
     
 
 ]
